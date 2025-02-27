@@ -81,7 +81,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(634, 141);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Ваше сообщение\r\n";
+            this.label1.Text = "Поле ввода\r\n";
             this.label1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // label2
@@ -92,7 +92,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(634, 141);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Зашифрованное сообщение\r\n";
+            this.label2.Text = "Поле вывода\r\n";
             this.label2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // Form1
