@@ -22,16 +22,13 @@ namespace CYPHER_ULTIMATE3000
         private void InitializeComponent()
         {
             this.SuspendLayout();
-        
-            // Отключил изменение размера окна приложения
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.Icon = Properties.Resources.CyberUltimate;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1366, 768);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Name = "Cypher3000";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.MaximizeBox = false;
+            this.Name = "Form1";
             this.Text = "Cypher3000";
             this.ResumeLayout(false);
 
