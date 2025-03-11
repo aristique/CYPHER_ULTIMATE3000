@@ -4,6 +4,7 @@ using System.Text;
 
 public class AESHelper
 {
+    // Метод для преобразования введённого пользователем ключа в 256-битный ключ
     public static byte[] GetAESKey(string userInput)
     {
         using (SHA256 sha256 = SHA256.Create())
@@ -12,6 +13,7 @@ public class AESHelper
         }
     }
 
+    // Генерация случайного ключа (16, 24 или 32 байта)
     public static byte[] GenerateRandomKey(int keySize)
     {
         byte[] key = new byte[keySize];
@@ -22,6 +24,7 @@ public class AESHelper
         return key;
     }
 
+    // Генерация случайного IV (16 байт)
     public static byte[] GenerateRandomIV()
     {
         byte[] iv = new byte[16];
@@ -32,6 +35,7 @@ public class AESHelper
         return iv;
     }
 
+    // Метод шифрования AES
     public static byte[] EncryptAES(string plainText, byte[] key, byte[] iv)
     {
         using (Aes aesAlg = Aes.Create())
@@ -49,6 +53,7 @@ public class AESHelper
         }
     }
 
+    // Метод расшифровки AES
     public static string DecryptAES(byte[] cipherText, byte[] key, byte[] iv)
     {
         using (Aes aesAlg = Aes.Create())
