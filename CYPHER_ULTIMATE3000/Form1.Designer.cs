@@ -22,21 +22,21 @@ namespace CYPHER_ULTIMATE3000
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.OutputTextBox = new System.Windows.Forms.TextBox();
+            this.InputTextBox = new System.Windows.Forms.TextBox();
             this.InputText = new System.Windows.Forms.Label();
             this.OutputText = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.KeyTextBox = new System.Windows.Forms.TextBox();
             this.KeyText = new System.Windows.Forms.Label();
             this.GenerateKeyButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.EncryptButton = new System.Windows.Forms.Button();
+            this.DecryptButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
+            this.AsymAlgRadioButton = new System.Windows.Forms.RadioButton();
+            this.SymAlgRadioButton = new System.Windows.Forms.RadioButton();
+            this.ChooseAlgText = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -50,8 +50,8 @@ namespace CYPHER_ULTIMATE3000
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.OutputText, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox3, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.OutputTextBox, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.InputTextBox, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.InputText, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -62,25 +62,25 @@ namespace CYPHER_ULTIMATE3000
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1342, 471);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // textBox3
+            // OutputTextBox
             // 
-            this.textBox3.BackColor = System.Drawing.SystemColors.Window;
-            this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox3.Location = new System.Drawing.Point(686, 23);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(653, 445);
-            this.textBox3.TabIndex = 2;
+            this.OutputTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.OutputTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OutputTextBox.Location = new System.Drawing.Point(686, 23);
+            this.OutputTextBox.Multiline = true;
+            this.OutputTextBox.Name = "OutputTextBox";
+            this.OutputTextBox.ReadOnly = true;
+            this.OutputTextBox.Size = new System.Drawing.Size(653, 445);
+            this.OutputTextBox.TabIndex = 2;
             // 
-            // textBox1
+            // InputTextBox
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 23);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(652, 445);
-            this.textBox1.TabIndex = 0;
+            this.InputTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InputTextBox.Location = new System.Drawing.Point(3, 23);
+            this.InputTextBox.Multiline = true;
+            this.InputTextBox.Name = "InputTextBox";
+            this.InputTextBox.Size = new System.Drawing.Size(652, 445);
+            this.InputTextBox.TabIndex = 0;
             // 
             // InputText
             // 
@@ -112,7 +112,7 @@ namespace CYPHER_ULTIMATE3000
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.Controls.Add(this.textBox2, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.KeyTextBox, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.KeyText, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.GenerateKeyButton, 1, 1);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 490);
@@ -123,14 +123,14 @@ namespace CYPHER_ULTIMATE3000
             this.tableLayoutPanel2.Size = new System.Drawing.Size(655, 81);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
-            // textBox2
+            // KeyTextBox
             // 
-            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox2.Location = new System.Drawing.Point(3, 23);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(321, 55);
-            this.textBox2.TabIndex = 0;
+            this.KeyTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.KeyTextBox.Location = new System.Drawing.Point(3, 23);
+            this.KeyTextBox.Multiline = true;
+            this.KeyTextBox.Name = "KeyTextBox";
+            this.KeyTextBox.Size = new System.Drawing.Size(321, 55);
+            this.KeyTextBox.TabIndex = 0;
             // 
             // KeyText
             // 
@@ -161,8 +161,8 @@ namespace CYPHER_ULTIMATE3000
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.button1, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.button2, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.EncryptButton, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.DecryptButton, 2, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(698, 490);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
@@ -171,68 +171,68 @@ namespace CYPHER_ULTIMATE3000
             this.tableLayoutPanel3.Size = new System.Drawing.Size(653, 68);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
-            // button1
+            // EncryptButton
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(310, 62);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Шифровать текст";
-            this.button1.UseVisualStyleBackColor = true;
+            this.EncryptButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EncryptButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EncryptButton.Location = new System.Drawing.Point(3, 3);
+            this.EncryptButton.Name = "EncryptButton";
+            this.EncryptButton.Size = new System.Drawing.Size(310, 62);
+            this.EncryptButton.TabIndex = 0;
+            this.EncryptButton.Text = "Шифровать текст";
+            this.EncryptButton.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // DecryptButton
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(339, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(311, 62);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Дешифровать текст";
-            this.button2.UseVisualStyleBackColor = true;
+            this.DecryptButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DecryptButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DecryptButton.Location = new System.Drawing.Point(339, 3);
+            this.DecryptButton.Name = "DecryptButton";
+            this.DecryptButton.Size = new System.Drawing.Size(311, 62);
+            this.DecryptButton.TabIndex = 1;
+            this.DecryptButton.Text = "Дешифровать текст";
+            this.DecryptButton.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.radioButton2);
-            this.panel1.Controls.Add(this.radioButton1);
+            this.panel1.Controls.Add(this.ChooseAlgText);
+            this.panel1.Controls.Add(this.SymAlgRadioButton);
+            this.panel1.Controls.Add(this.AsymAlgRadioButton);
             this.panel1.Location = new System.Drawing.Point(12, 574);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 79);
             this.panel1.TabIndex = 3;
             // 
-            // radioButton1
+            // AsymAlgRadioButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(3, 59);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(190, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Асимметричный алгоритм (RSA)";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.AsymAlgRadioButton.AutoSize = true;
+            this.AsymAlgRadioButton.Location = new System.Drawing.Point(3, 59);
+            this.AsymAlgRadioButton.Name = "AsymAlgRadioButton";
+            this.AsymAlgRadioButton.Size = new System.Drawing.Size(190, 17);
+            this.AsymAlgRadioButton.TabIndex = 0;
+            this.AsymAlgRadioButton.TabStop = true;
+            this.AsymAlgRadioButton.Text = "Асимметричный алгоритм (RSA)";
+            this.AsymAlgRadioButton.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // SymAlgRadioButton
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(3, 36);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(183, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Симметричный алгоритм (AES)";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.SymAlgRadioButton.AutoSize = true;
+            this.SymAlgRadioButton.Location = new System.Drawing.Point(3, 36);
+            this.SymAlgRadioButton.Name = "SymAlgRadioButton";
+            this.SymAlgRadioButton.Size = new System.Drawing.Size(183, 17);
+            this.SymAlgRadioButton.TabIndex = 1;
+            this.SymAlgRadioButton.TabStop = true;
+            this.SymAlgRadioButton.Text = "Симметричный алгоритм (AES)";
+            this.SymAlgRadioButton.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // ChooseAlgText
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(97, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Выбор алгоритма";
+            this.ChooseAlgText.AutoSize = true;
+            this.ChooseAlgText.Location = new System.Drawing.Point(3, 10);
+            this.ChooseAlgText.Name = "ChooseAlgText";
+            this.ChooseAlgText.Size = new System.Drawing.Size(97, 13);
+            this.ChooseAlgText.TabIndex = 2;
+            this.ChooseAlgText.Text = "Выбор алгоритма";
             // 
             // Form1
             // 
@@ -262,21 +262,21 @@ namespace CYPHER_ULTIMATE3000
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        private TextBox textBox3;
-        private TextBox textBox1;
+        private TextBox OutputTextBox;
+        private TextBox InputTextBox;
         private Label InputText;
         private Label OutputText;
         private TableLayoutPanel tableLayoutPanel2;
-        private TextBox textBox2;
+        private TextBox KeyTextBox;
         private Label KeyText;
         private Button GenerateKeyButton;
         private TableLayoutPanel tableLayoutPanel3;
-        private Button button1;
-        private Button button2;
+        private Button EncryptButton;
+        private Button DecryptButton;
         private Panel panel1;
-        private RadioButton radioButton2;
-        private RadioButton radioButton1;
-        private Label label1;
+        private RadioButton SymAlgRadioButton;
+        private RadioButton AsymAlgRadioButton;
+        private Label ChooseAlgText;
     }
 }
 
