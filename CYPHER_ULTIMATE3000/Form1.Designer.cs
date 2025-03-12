@@ -154,6 +154,7 @@ namespace CYPHER_ULTIMATE3000
             this.GenerateKeyButton.TabIndex = 2;
             this.GenerateKeyButton.Text = "Сгенерировать ключ";
             this.GenerateKeyButton.UseVisualStyleBackColor = true;
+            this.GenerateKeyButton.Click += new System.EventHandler(this.GenerateKeyButton_Click);
             // 
             // tableLayoutPanel3
             // 
