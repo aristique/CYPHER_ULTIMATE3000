@@ -100,7 +100,8 @@ namespace CYPHER_ULTIMATE3000
             }
             catch (Exception ex)
             {
-                return $"Ошибка: {ex.Message}";
+                MessageBox.Show($"Ошибка: {ex.Message}");
+                return null;
             }
         }
 
@@ -324,13 +325,20 @@ namespace CYPHER_ULTIMATE3000
         // Кнопка проверки
         private void VerifyButton_Click(object sender, EventArgs e)
         {
-            if (Verify(PubKeyTextBox.Text, InputTextBox.Text, Convert.FromBase64String(SignatureTextBox.Text)))
+            try
             {
-                MessageBox.Show("Текст не был изменён");
+                if (Verify(PubKeyTextBox.Text, InputTextBox.Text, Convert.FromBase64String(SignatureTextBox.Text)))
+                {
+                    MessageBox.Show("Текст не был изменён");
+                }
+                else
+                {
+                    MessageBox.Show("Текст был изменён");
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("Текст был изменён");
+                MessageBox.Show($"Введён неправильный подписанный текст.");
             }
         }
 
