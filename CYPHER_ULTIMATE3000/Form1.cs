@@ -8,6 +8,7 @@ namespace CYPHER_ULTIMATE3000
 {
     public partial class Form1 : Form
     {
+        // Инициализация формы
         public Form1()
         {
             InitializeComponent();
