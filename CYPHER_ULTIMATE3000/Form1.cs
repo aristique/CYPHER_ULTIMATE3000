@@ -12,62 +12,93 @@ namespace CYPHER_ULTIMATE3000
         {
             InitializeComponent();
         }
+        // ШИФРОВАНИЕ AES
+        //
+        //
 
-        public static string Encrypt(string plainText, string keyString)
+        public static string Encrypt(string plainText, string password)
         {
             byte[] cipherData;
-            Aes aes = Aes.Create();
-            aes.Key = Encoding.UTF8.GetBytes(keyString);
-            aes.GenerateIV();
-            aes.Mode = CipherMode.CBC;
-            ICryptoTransform cipher = aes.CreateEncryptor(aes.Key, aes.IV);
-
-            using (MemoryStream ms = new MemoryStream())
+            using (Aes aes = Aes.Create())
             {
-                using (CryptoStream cs = new CryptoStream(ms, cipher, CryptoStreamMode.Write))
+                byte[] salt = new byte[16];
+                using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
                 {
+                    rng.GetBytes(salt);
+                }
+
+                var pbkdf2 = new Rfc2898DeriveBytes(
+                    password: password,
+                    salt: salt,
+                    iterations: 10000,
+                    hashAlgorithm: HashAlgorithmName.SHA256
+                );
+
+                aes.Key = pbkdf2.GetBytes(32);
+                aes.GenerateIV();
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    ms.Write(salt, 0, salt.Length);
+                    ms.Write(aes.IV, 0, aes.IV.Length);
+
+                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
                     using (StreamWriter sw = new StreamWriter(cs))
                     {
                         sw.Write(plainText);
                     }
+
+                    return Convert.ToBase64String(ms.ToArray());
                 }
-
-                cipherData = ms.ToArray();
             }
-
-            byte[] combinedData = new byte[aes.IV.Length + cipherData.Length];
-            Array.Copy(aes.IV, 0, combinedData, 0, aes.IV.Length);
-            Array.Copy(cipherData, 0, combinedData, aes.IV.Length, cipherData.Length);
-            return Convert.ToBase64String(combinedData);
         }
 
-        public static string Decrypt(string combinedString, string keyString)
+        public static string Decrypt(string combinedString, string password)
         {
-            string plainText;
-            byte[] combinedData = Convert.FromBase64String(combinedString);
-            Aes aes = Aes.Create();
-            aes.Key = Encoding.UTF8.GetBytes(keyString);
-            byte[] iv = new byte[aes.BlockSize / 8];
-            byte[] cipherText = new byte[combinedData.Length - iv.Length];
-            Array.Copy(combinedData, iv, iv.Length);
-            Array.Copy(combinedData, iv.Length, cipherText, 0, cipherText.Length);
-            aes.IV = iv;
-            aes.Mode = CipherMode.CBC;
-            ICryptoTransform decipher = aes.CreateDecryptor(aes.Key, aes.IV);
-
-            using (MemoryStream ms = new MemoryStream(cipherText))
+            try
             {
-                using (CryptoStream cs = new CryptoStream(ms, decipher, CryptoStreamMode.Read))
+                byte[] combinedData = Convert.FromBase64String(combinedString);
+                if (combinedData.Length < 32)
+                    return "Ошибка: неверный формат данных";
+
+                using (Aes aes = Aes.Create())
                 {
+                    byte[] salt = new byte[16];
+                    byte[] iv = new byte[16];
+                    Array.Copy(combinedData, 0, salt, 0, 16);
+                    Array.Copy(combinedData, 16, iv, 0, 16);
+
+                    var pbkdf2 = new Rfc2898DeriveBytes(
+                        password: password,
+                        salt: salt,
+                        iterations: 10000,
+                        hashAlgorithm: HashAlgorithmName.SHA256
+                    );
+
+                    aes.Key = pbkdf2.GetBytes(32);
+                    aes.IV = iv;
+                    aes.Mode = CipherMode.CBC;
+                    aes.Padding = PaddingMode.PKCS7;
+
+                    using (MemoryStream ms = new MemoryStream(combinedData, 32, combinedData.Length - 32))
+                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read))
                     using (StreamReader sr = new StreamReader(cs))
                     {
-                        plainText = sr.ReadToEnd();
+                        return sr.ReadToEnd();
                     }
                 }
-
-                return plainText;
+            }
+            catch (Exception ex)
+            {
+                return $"Ошибка: {ex.Message}";
             }
         }
+
+        //
+        //
+        // ШИФРОВАНИЕ AES
 
         private void EncyptButton_Click(object sender, EventArgs e)
         {
