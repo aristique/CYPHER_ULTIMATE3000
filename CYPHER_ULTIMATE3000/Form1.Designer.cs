@@ -39,10 +39,16 @@ namespace CYPHER_ULTIMATE3000
             this.ChooseAlgText = new System.Windows.Forms.Label();
             this.AESRadioButton = new System.Windows.Forms.RadioButton();
             this.RSARadioButton = new System.Windows.Forms.RadioButton();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.SignButton = new System.Windows.Forms.Button();
+            this.VerifyButton = new System.Windows.Forms.Button();
+            this.SignatureTextBox = new System.Windows.Forms.TextBox();
+            this.SignatureText = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -180,7 +186,6 @@ namespace CYPHER_ULTIMATE3000
             this.PubKeyTextBox.Location = new System.Drawing.Point(3, 111);
             this.PubKeyTextBox.Multiline = true;
             this.PubKeyTextBox.Name = "PubKeyTextBox";
-            this.PubKeyTextBox.ReadOnly = true;
             this.PubKeyTextBox.Size = new System.Drawing.Size(321, 67);
             this.PubKeyTextBox.TabIndex = 4;
             // 
@@ -267,10 +272,71 @@ namespace CYPHER_ULTIMATE3000
             this.RSARadioButton.UseVisualStyleBackColor = true;
             this.RSARadioButton.CheckedChanged += new System.EventHandler(this.RSARadioButton_CheckedChanged);
             // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 3;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Controls.Add(this.SignButton, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.VerifyButton, 2, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(698, 564);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(653, 68);
+            this.tableLayoutPanel4.TabIndex = 4;
+            // 
+            // SignButton
+            // 
+            this.SignButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SignButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SignButton.Location = new System.Drawing.Point(3, 3);
+            this.SignButton.Name = "SignButton";
+            this.SignButton.Size = new System.Drawing.Size(310, 62);
+            this.SignButton.TabIndex = 0;
+            this.SignButton.Text = "Подписать текст";
+            this.SignButton.UseVisualStyleBackColor = true;
+            this.SignButton.Click += new System.EventHandler(this.SignButton_Click);
+            // 
+            // VerifyButton
+            // 
+            this.VerifyButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VerifyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.VerifyButton.Location = new System.Drawing.Point(339, 3);
+            this.VerifyButton.Name = "VerifyButton";
+            this.VerifyButton.Size = new System.Drawing.Size(311, 62);
+            this.VerifyButton.TabIndex = 1;
+            this.VerifyButton.Text = "Проверить подпись";
+            this.VerifyButton.UseVisualStyleBackColor = true;
+            this.VerifyButton.Click += new System.EventHandler(this.VerifyButton_Click);
+            // 
+            // SignatureTextBox
+            // 
+            this.SignatureTextBox.Location = new System.Drawing.Point(695, 661);
+            this.SignatureTextBox.Multiline = true;
+            this.SignatureTextBox.Name = "SignatureTextBox";
+            this.SignatureTextBox.Size = new System.Drawing.Size(653, 48);
+            this.SignatureTextBox.TabIndex = 5;
+            // 
+            // SignatureText
+            // 
+            this.SignatureText.AutoSize = true;
+            this.SignatureText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.SignatureText.Location = new System.Drawing.Point(695, 639);
+            this.SignatureText.Name = "SignatureText";
+            this.SignatureText.Size = new System.Drawing.Size(157, 16);
+            this.SignatureText.TabIndex = 6;
+            this.SignatureText.Text = "Подписанный текст:";
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1366, 768);
+            this.Controls.Add(this.SignatureText);
+            this.Controls.Add(this.SignatureTextBox);
+            this.Controls.Add(this.tableLayoutPanel4);
             this.Controls.Add(this.tableLayoutPanel3);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -288,7 +354,9 @@ namespace CYPHER_ULTIMATE3000
             this.tableLayoutPanel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -312,6 +380,11 @@ namespace CYPHER_ULTIMATE3000
         private Label ChooseAlgText;
         private Label PubKeyText;
         private TextBox PubKeyTextBox;
+        private TableLayoutPanel tableLayoutPanel4;
+        private Button SignButton;
+        private Button VerifyButton;
+        private TextBox SignatureTextBox;
+        private Label SignatureText;
     }
 }
 

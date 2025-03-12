@@ -15,6 +15,10 @@ namespace CYPHER_ULTIMATE3000
             AESRadioButton.Checked = true;
             PubKeyText.Visible = false;
             PubKeyTextBox.Visible = false;
+            SignButton.Visible = false;
+            VerifyButton.Visible = false;
+            SignatureText.Visible = false;
+            SignatureTextBox.Visible = false;
         }
 
         // ШИФРОВАНИЕ AES
@@ -119,31 +123,54 @@ namespace CYPHER_ULTIMATE3000
             }
         }
 
-        public static string RSADecrypt(string encryptedText, byte[] privateKeyBytes)
+        private string RSADecrypt(string encryptedText, string privateKeyXml)
         {
-            try
+            using (RSA rsa = RSA.Create())
             {
-                using (RSA rsa = RSA.Create())
-                {
-                    // Преобразование ключа из байт в XML-строку
-                    string privateKeyXml = Encoding.UTF8.GetString(privateKeyBytes);
-                    rsa.FromXmlString(privateKeyXml);
+                rsa.FromXmlString(privateKeyXml); // Устанавливаем приватный ключ (XML)
 
-                    // Расшифровка данных
-                    byte[] encryptedBytes = Convert.FromBase64String(encryptedText);
-                    byte[] decryptedBytes = rsa.Decrypt(encryptedBytes, RSAEncryptionPadding.Pkcs1);
-                    return Encoding.UTF8.GetString(decryptedBytes);
-                }
+                byte[] encryptedBytes = Convert.FromBase64String(encryptedText); // Декодируем зашифрованные данные
+                byte[] decryptedBytes = rsa.Decrypt(encryptedBytes, RSAEncryptionPadding.Pkcs1);
+
+                return Encoding.UTF8.GetString(decryptedBytes);
             }
-            catch (Exception ex)
+        }
+
+
+        //
+        //
+        // ШИФРОВАНИЕ RSA
+
+        // ПОДПИСЬ И ПРОВЕРКА
+        //
+        //
+
+        public static string Sign(string privateKey, string dataToSign)
+        {
+            using (RSA rsa = RSA.Create())
             {
-                return $"Ошибка: {ex.Message}";
+                rsa.FromXmlString(privateKey);
+                byte[] messageBytes = Encoding.UTF8.GetBytes(dataToSign);
+                byte[] signatureBytes = rsa.SignData(messageBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+
+                return Convert.ToBase64String(signatureBytes);
+            }
+        }
+
+
+        public static bool Verify(string publicKey, string dataToValidate, byte[] signature)
+        {
+            using (RSA rsa = RSA.Create())
+            {
+                rsa.FromXmlString(publicKey);
+                byte[] messageBytes = Encoding.UTF8.GetBytes(dataToValidate);
+                return rsa.VerifyData(messageBytes, signature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
             }
         }
 
         //
         //
-        // ШИФРОВАНИЕ RSA
+        // ПОДПИСЬ И ПРОВЕРКА
 
         // Кнопка AES шифрования
         private void AESEncyptButton_Click(object sender, EventArgs e)
@@ -235,25 +262,19 @@ namespace CYPHER_ULTIMATE3000
                 return;
             }
 
-            string keyCrypt = PrivKeyTextBox.Text;
-
-            if (!IsBase64String(keyCrypt))
-            {
-                MessageBox.Show("Ключ содержит недопустимые символы Base-64.", "Ошибка!");
-                return;
-            }
+            string privateKeyXml = PrivKeyTextBox.Text;
 
             try
             {
-                byte[] keyBytes = Convert.FromBase64String(keyCrypt);
                 OutputTextBox.Clear();
-                OutputTextBox.Text = RSADecrypt(InputTextBox.Text, keyBytes);
+                OutputTextBox.Text = RSADecrypt(InputTextBox.Text, privateKeyXml);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка: {ex.Message}", "Детали");
             }
         }
+
 
         // Проверка строки на соответствие Base-64
         private static bool IsBase64String(string s)
@@ -275,10 +296,43 @@ namespace CYPHER_ULTIMATE3000
             using (RSA rsa = RSA.Create())
             {
                 string privateKeyXml = rsa.ToXmlString(true);
-                byte[] privateKeyBytes = Encoding.UTF8.GetBytes(privateKeyXml);
-                PrivKeyTextBox.Text = Convert.ToBase64String(privateKeyBytes);
+                PrivKeyTextBox.Text = privateKeyXml;
 
                 PubKeyTextBox.Text = rsa.ToXmlString(false);
+            }
+        }
+
+        // Кнопка подписи
+
+        private void SignButton_Click(Object sender, EventArgs e)
+        {
+            string privateKey = PrivKeyTextBox.Text;
+            string inputText = InputTextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(privateKey) || string.IsNullOrWhiteSpace(inputText))
+            {
+                MessageBox.Show("Введите приватный ключ и текст для подписи.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string signedMessage = Sign(privateKey, inputText);
+
+            string output = $"Зашифрованное сообщение:\r\n{inputText}\r\n\r\nПодписанное сообщение:\r\n{signedMessage}";
+
+            OutputTextBox.Text = output;
+        }
+
+        // Кнопка проверки
+
+        private void VerifyButton_Click(object sender, EventArgs e)
+        {
+            if (Verify(PubKeyTextBox.Text, InputTextBox.Text, Convert.FromBase64String(SignatureTextBox.Text)))
+            {
+                MessageBox.Show("Текст не был изменён");
+            }
+            else
+            {
+                MessageBox.Show("Текст был изменён");
             }
         }
 
@@ -289,6 +343,10 @@ namespace CYPHER_ULTIMATE3000
             {
                 PubKeyText.Visible = false;
                 PubKeyTextBox.Visible = false;
+                SignButton.Visible = false;
+                VerifyButton.Visible = false;
+                SignatureText.Visible = false;
+                SignatureTextBox.Visible = false;
 
                 GeneratePrivKeyButton.Click -= GenerateAESKeyButton_Click;
                 GeneratePrivKeyButton.Click -= GenerateRSAKeyButton_Click;
@@ -311,6 +369,10 @@ namespace CYPHER_ULTIMATE3000
             {
                 PubKeyText.Visible = true;
                 PubKeyTextBox.Visible = true;
+                SignButton.Visible = true;
+                VerifyButton.Visible = true;
+                SignatureText.Visible = true;
+                SignatureTextBox.Visible = true;
 
                 GeneratePrivKeyButton.Click -= GenerateAESKeyButton_Click;
                 GeneratePrivKeyButton.Click -= GenerateRSAKeyButton_Click;
