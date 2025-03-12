@@ -110,7 +110,6 @@ namespace CYPHER_ULTIMATE3000
 
         public static byte[] RSAEncrypt(string dataToEncrypt, string publicKey)
         {
-            //using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
             using (RSA rsa = RSA.Create())
             {
                 rsa.FromXmlString(publicKey);
@@ -120,15 +119,25 @@ namespace CYPHER_ULTIMATE3000
             }
         }
 
-        public static string RSADecrypt(string privateKey, byte[] encryptedBytes)
+        public static string RSADecrypt(string encryptedText, byte[] privateKeyBytes)
         {
-            //using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
-            using (RSA rsa = RSA.Create())
+            try
             {
-                rsa.FromXmlString(privateKey);
-                byte[] decryptedBytes = rsa.Decrypt(encryptedBytes, RSAEncryptionPadding.Pkcs1);
-                string decryptedMessage = Encoding.UTF8.GetString(decryptedBytes);
-                return decryptedMessage;
+                using (RSA rsa = RSA.Create())
+                {
+                    // Преобразование ключа из байт в XML-строку
+                    string privateKeyXml = Encoding.UTF8.GetString(privateKeyBytes);
+                    rsa.FromXmlString(privateKeyXml);
+
+                    // Расшифровка данных
+                    byte[] encryptedBytes = Convert.FromBase64String(encryptedText);
+                    byte[] decryptedBytes = rsa.Decrypt(encryptedBytes, RSAEncryptionPadding.Pkcs1);
+                    return Encoding.UTF8.GetString(decryptedBytes);
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Ошибка: {ex.Message}";
             }
         }
 
@@ -197,9 +206,14 @@ namespace CYPHER_ULTIMATE3000
             {
                 if (PubKeyTextBox.Text != "")
                 {
-                    string keyCrypt = PubKeyTextBox.Text;
-                    OutputTextBox.Clear();
-                    OutputTextBox.AppendText(Convert.ToBase64String(RSAEncrypt(InputTextBox.Text, keyCrypt)));
+                    try
+                    {
+                        string keyCrypt = PubKeyTextBox.Text;
+                        OutputTextBox.Clear();
+                        OutputTextBox.AppendText(Convert.ToBase64String(RSAEncrypt(InputTextBox.Text, keyCrypt)));
+                    }
+                    catch (Exception ex) {
+                        MessageBox.Show($"Ошибка: {ex.Message}"); }
                 }
                 else MessageBox.Show("Введите ключ.", "Ошибка!");
             }
@@ -209,25 +223,50 @@ namespace CYPHER_ULTIMATE3000
         // Кнопка RSA дешифрования
         private void RSADecryptButton_Click(object sender, EventArgs e)
         {
-            /*if (InputTextBox.Text != "")
+            if (string.IsNullOrEmpty(InputTextBox.Text))
             {
-                if (PrivKeyTextBox.Text != "")
-                {
-                    string keyCrypt = PrivKeyTextBox.Text;
-                    OutputTextBox.Clear();
-                    string decryptedText = RSADecrypt(InputTextBox.Text, Convert.FromBase64String(keyCrypt));
-                    if (decryptedText.StartsWith("Ошибка"))
-                    {
-                        MessageBox.Show(decryptedText, "Ошибка!");
-                    }
-                    else
-                    {
-                        OutputTextBox.AppendText(decryptedText);
-                    }
-                }
-                else MessageBox.Show("Введите ключ.", "Ошибка!");
+                MessageBox.Show("Введите текст.", "Ошибка!");
+                return;
             }
-            else MessageBox.Show("Введите текст.", "Ошибка!");*/
+
+            if (string.IsNullOrEmpty(PrivKeyTextBox.Text))
+            {
+                MessageBox.Show("Введите ключ.", "Ошибка!");
+                return;
+            }
+
+            string keyCrypt = PrivKeyTextBox.Text;
+
+            if (!IsBase64String(keyCrypt))
+            {
+                MessageBox.Show("Ключ содержит недопустимые символы Base-64.", "Ошибка!");
+                return;
+            }
+
+            try
+            {
+                byte[] keyBytes = Convert.FromBase64String(keyCrypt);
+                OutputTextBox.Clear();
+                OutputTextBox.Text = RSADecrypt(InputTextBox.Text, keyBytes);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}", "Детали");
+            }
+        }
+
+        // Проверка строки на соответствие Base-64
+        private static bool IsBase64String(string s)
+        {
+            try
+            {
+                Convert.FromBase64String(s);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         // Кнопка генерации приватного ключа RSA
@@ -235,11 +274,15 @@ namespace CYPHER_ULTIMATE3000
         {
             using (RSA rsa = RSA.Create())
             {
-                 PubKeyTextBox.Text = rsa.ToXmlString(false);
-                 PrivKeyTextBox.Text = rsa.ToXmlString(true);
+                string privateKeyXml = rsa.ToXmlString(true);
+                byte[] privateKeyBytes = Encoding.UTF8.GetBytes(privateKeyXml);
+                PrivKeyTextBox.Text = Convert.ToBase64String(privateKeyBytes);
+
+                PubKeyTextBox.Text = rsa.ToXmlString(false);
             }
         }
 
+        // Обработка круглой кнопки симметричного алгоритма
         private void AESRadioButton_CheckedChanged(Object sender, EventArgs e)
         {
             if (AESRadioButton.Checked)
@@ -261,6 +304,7 @@ namespace CYPHER_ULTIMATE3000
             }
         }
 
+        // Обработка круглой кнопки асимметричного алгоритма
         private void RSARadioButton_CheckedChanged(Object sender, EventArgs e)
         {
             if (RSARadioButton.Checked)
