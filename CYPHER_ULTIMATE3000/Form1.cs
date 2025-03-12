@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace CYPHER_ULTIMATE3000
 {
@@ -16,57 +18,68 @@ namespace CYPHER_ULTIMATE3000
         {
             InitializeComponent();
         }
-
-        private void EncryptButton_Click(object sender, EventArgs e)
+        // Шифрование и дешифрование
+        /// Шифрует строку (Строка которую необходимо зашифровать, Ключ шифрования)
+        public static string Encrypt(string str, string keyCrypt)
         {
-            string plainText = InputTextBox.Text;  // Вводимый текст
-            byte[] key;
-
-            // Проверяем, ввёл ли пользователь ключ
-            if (string.IsNullOrEmpty(KeyTextBox.Text))
+            return Convert.ToBase64String(Encrypt(Encoding.UTF8.GetBytes(str), keyCrypt));
+        }
+        /// Расшифроывает данные из строки (Зашифрованая строка, Ключ шифрования)
+        public static string Decrypt(string str, string keyCrypt)
+        {
+            string Result;
+            try
             {
-                key = AESHelper.GenerateRandomKey(32); // Генерация 256-битного ключа
-                KeyTextBox.Text = Convert.ToBase64String(key); // Вывод ключа в поле
+                CryptoStream Cs = InternalDecrypt(Convert.FromBase64String(str), keyCrypt);
+                StreamReader Sr = new StreamReader(Cs);
+
+                Result = Sr.ReadToEnd();
+
+                Cs.Close();
+                Cs.Dispose();
+
+                Sr.Close();
+                Sr.Dispose();
             }
-            else
+            catch (CryptographicException)
             {
-                key = AESHelper.GetAESKey(KeyTextBox.Text); // Преобразование введённого ключа
+                return null;
             }
 
-            byte[] iv = AESHelper.GenerateRandomKey(16); // IV всегда 16 байт
-            byte[] encryptedData = AESHelper.EncryptAES(plainText, key, iv);
+            return Result;
+        }
+        private static byte[] Encrypt(byte[] key, string value)
+        {
+            SymmetricAlgorithm Sa = Rijndael.Create();
+            ICryptoTransform Ct = Sa.CreateEncryptor((new PasswordDeriveBytes(value, null)).GetBytes(16), new byte[16]);
 
-            byte[] result = iv.Concat(encryptedData).ToArray();
-            OutputTextBox.Text = Convert.ToBase64String(result);
+            MemoryStream Ms = new MemoryStream();
+            CryptoStream Cs = new CryptoStream(Ms, Ct, CryptoStreamMode.Write);
+
+            Cs.Write(key, 0, key.Length);
+            Cs.FlushFinalBlock();
+
+            byte[] Result = Ms.ToArray();
+
+            Ms.Close();
+            Ms.Dispose();
+
+            Cs.Close();
+            Cs.Dispose();
+
+            Ct.Dispose();
+
+            return Result;
+        }
+        private static CryptoStream InternalDecrypt(byte[] key, string value)
+        {
+            SymmetricAlgorithm sa = Rijndael.Create();
+            ICryptoTransform ct = sa.CreateDecryptor((new PasswordDeriveBytes(value, null)).GetBytes(16), new byte[16]);
+
+            MemoryStream ms = new MemoryStream(key);
+            return new CryptoStream(ms, ct, CryptoStreamMode.Read);
         }
 
-
-        private void DecryptButton_Click(object sender, EventArgs e)
-        {
-            byte[] encryptedData = Convert.FromBase64String(OutputTextBox.Text);
-            byte[] iv = encryptedData.Take(16).ToArray(); // Извлекаем IV
-            byte[] cipherText = encryptedData.Skip(16).ToArray(); // Извлекаем зашифрованные данные
-
-            byte[] key;
-            if (string.IsNullOrEmpty(KeyTextBox.Text))
-            {
-                MessageBox.Show("Введите ключ для расшифровки!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            else
-            {
-                key = AESHelper.GetAESKey(KeyTextBox.Text);
-            }
-
-            string decryptedText = AESHelper.DecryptAES(cipherText, key, iv);
-            OutputTextBox.Text = decryptedText;
-        }
-
-        private void GenerateKeyButton_Click(object sender, EventArgs e)
-        {
-            byte[] key = AESHelper.GenerateRandomKey(32); // Генерация 256-битного ключа
-            KeyTextBox.Text = Convert.ToBase64String(key); // Выводим ключ в поле ввода
-        }
-
+        
     }
 }

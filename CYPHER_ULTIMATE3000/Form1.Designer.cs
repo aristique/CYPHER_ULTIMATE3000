@@ -66,7 +66,7 @@ namespace CYPHER_ULTIMATE3000
             // 
             this.OutputText.AutoSize = true;
             this.OutputText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.OutputText.Font = new System.Drawing.Font("Adobe Devanagari", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OutputText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OutputText.Location = new System.Drawing.Point(686, 0);
             this.OutputText.Name = "OutputText";
             this.OutputText.Size = new System.Drawing.Size(653, 20);
@@ -98,7 +98,7 @@ namespace CYPHER_ULTIMATE3000
             // 
             this.InputText.AutoSize = true;
             this.InputText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.InputText.Font = new System.Drawing.Font("Adobe Devanagari", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.InputText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InputText.Location = new System.Drawing.Point(3, 0);
             this.InputText.Name = "InputText";
             this.InputText.Size = new System.Drawing.Size(652, 20);
@@ -154,7 +154,6 @@ namespace CYPHER_ULTIMATE3000
             this.GenerateKeyButton.TabIndex = 2;
             this.GenerateKeyButton.Text = "Сгенерировать ключ";
             this.GenerateKeyButton.UseVisualStyleBackColor = true;
-            this.GenerateKeyButton.Click += new System.EventHandler(this.GenerateKeyButton_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -182,7 +181,6 @@ namespace CYPHER_ULTIMATE3000
             this.EncryptButton.TabIndex = 0;
             this.EncryptButton.Text = "Шифровать текст";
             this.EncryptButton.UseVisualStyleBackColor = true;
-            this.EncryptButton.Click += new System.EventHandler(this.EncryptButton_Click);
             // 
             // DecryptButton
             // 
@@ -194,7 +192,6 @@ namespace CYPHER_ULTIMATE3000
             this.DecryptButton.TabIndex = 1;
             this.DecryptButton.Text = "Дешифровать текст";
             this.DecryptButton.UseVisualStyleBackColor = true;
-            this.DecryptButton.Click += new System.EventHandler(this.DecryptButton_Click);
             // 
             // panel1
             // 
@@ -211,7 +208,7 @@ namespace CYPHER_ULTIMATE3000
             this.ChooseAlgText.AutoSize = true;
             this.ChooseAlgText.Location = new System.Drawing.Point(3, 10);
             this.ChooseAlgText.Name = "ChooseAlgText";
-            this.ChooseAlgText.Size = new System.Drawing.Size(97, 13);
+            this.ChooseAlgText.Size = new System.Drawing.Size(144, 20);
             this.ChooseAlgText.TabIndex = 2;
             this.ChooseAlgText.Text = "Выбор алгоритма";
             // 
@@ -220,7 +217,7 @@ namespace CYPHER_ULTIMATE3000
             this.SymAlgRadioButton.AutoSize = true;
             this.SymAlgRadioButton.Location = new System.Drawing.Point(3, 36);
             this.SymAlgRadioButton.Name = "SymAlgRadioButton";
-            this.SymAlgRadioButton.Size = new System.Drawing.Size(183, 17);
+            this.SymAlgRadioButton.Size = new System.Drawing.Size(274, 24);
             this.SymAlgRadioButton.TabIndex = 1;
             this.SymAlgRadioButton.TabStop = true;
             this.SymAlgRadioButton.Text = "Симметричный алгоритм (AES)";
@@ -231,7 +228,7 @@ namespace CYPHER_ULTIMATE3000
             this.AsymAlgRadioButton.AutoSize = true;
             this.AsymAlgRadioButton.Location = new System.Drawing.Point(3, 59);
             this.AsymAlgRadioButton.Name = "AsymAlgRadioButton";
-            this.AsymAlgRadioButton.Size = new System.Drawing.Size(190, 17);
+            this.AsymAlgRadioButton.Size = new System.Drawing.Size(283, 24);
             this.AsymAlgRadioButton.TabIndex = 0;
             this.AsymAlgRadioButton.TabStop = true;
             this.AsymAlgRadioButton.Text = "Асимметричный алгоритм (RSA)";
