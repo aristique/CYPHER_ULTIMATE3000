@@ -303,7 +303,6 @@ namespace CYPHER_ULTIMATE3000
         }
 
         // Кнопка подписи
-
         private void SignButton_Click(Object sender, EventArgs e)
         {
             string privateKey = PrivKeyTextBox.Text;
@@ -323,7 +322,6 @@ namespace CYPHER_ULTIMATE3000
         }
 
         // Кнопка проверки
-
         private void VerifyButton_Click(object sender, EventArgs e)
         {
             if (Verify(PubKeyTextBox.Text, InputTextBox.Text, Convert.FromBase64String(SignatureTextBox.Text)))
