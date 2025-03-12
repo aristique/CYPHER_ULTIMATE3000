@@ -80,6 +80,97 @@ namespace CYPHER_ULTIMATE3000
             return new CryptoStream(ms, ct, CryptoStreamMode.Read);
         }
 
-        
+        /// Кнопки по шифр. и дешифр.
+        private void Btn_crypt_Click(object sender, EventArgs e)
+        {
+            if (rtB_crypt.Text != "")
+            {
+                if (tB_keyCrypt.Text != "")
+                {
+                    string keyCrypt = tB_keyCrypt.Text;
+                    rtB_deCrypt.Clear();
+                    rtB_deCrypt.AppendText(Encrypt(rtB_crypt.Text, keyCrypt));
+                }
+                else MessageBox.Show("Введите ключ.", "Ошибка!");
+            }
+            else MessageBox.Show("Введите текст.", "Ошибка!");
+        }
+        private void Btn_deCrypt_Click(object sender, EventArgs e)
+        {
+            if (rtB_deCrypt.Text != "")
+            {
+                if (tB_keyDeCrypt.Text != "")
+                {
+                    string keyCrypt;
+                    rtB_crypt.Clear();
+                    keyCrypt = tB_keyDeCrypt.Text;
+                    if (Decrypt(rtB_deCrypt.Text, keyCrypt) == null)
+                    {
+                        MessageBox.Show("Неправильный ключ.", "Ошибка!");
+                    }
+                    else rtB_crypt.AppendText(Decrypt(rtB_deCrypt.Text, keyCrypt));
+                }
+                else MessageBox.Show("Введите ключ.", "Ошибка!");
+            }
+            else MessageBox.Show("Введите текст.", "Ошибка!");
+        }
+        private void CB_randKey_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cB_randKey.Checked)
+            {
+                tB_keyCrypt.Clear();
+                tB_keyCrypt.Text = Path.GetRandomFileName();
+            }
+            else tB_keyCrypt.Clear();
+        }
+
+
+        // Файлы
+        private void Btn_openFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog()
+            {
+                Multiselect = false,
+                Filter = "Txt Files|*.txt"
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader fileTxt = new StreamReader(openFile.FileName, Encoding.Default);
+                rtB_crypt.Clear();
+                rtB_crypt.Text = Convert.ToString(fileTxt.ReadToEnd());
+                fileTxt.Close();
+            }
+        }
+        private void Btn_openDeCrypt_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog()
+            {
+                Multiselect = false,
+                Filter = "Txt Files|*.txt"
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader fileTxt = new StreamReader(openFile.FileName, Encoding.Default);
+                rtB_deCrypt.Clear();
+                rtB_deCrypt.Text = Convert.ToString(fileTxt.ReadToEnd());
+                fileTxt.Close();
+            }
+        }
+        private void Btn_saveFile_Click(object sender, EventArgs e)
+        {
+            if (rtB_deCrypt.Text != "")
+            {
+                SaveFileDialog saveFile = new SaveFileDialog()
+                {
+                    Filter = "Txt Files|*.txt"
+                };
+                if (saveFile.ShowDialog() == DialogResult.OK)
+                {
+                    StreamWriter saveTxt = new StreamWriter(saveFile.FileName);
+                    saveTxt.WriteLine(rtB_deCrypt.Text);
+                    saveTxt.Close();
+                }
+            }
+        }
     }
 }
