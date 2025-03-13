@@ -123,7 +123,8 @@ namespace CYPHER_ULTIMATE3000
 
         public static byte[] RSAEncrypt(string dataToEncrypt, string publicKey)
         {
-            using (RSA rsa = RSA.Create())
+            int keySizeInBytes = 8192;
+            using (RSA rsa = RSA.Create(keySizeInBytes))
             {
                 rsa.FromXmlString(publicKey);
                 byte[] messageBytes = Zip(dataToEncrypt);
@@ -134,7 +135,8 @@ namespace CYPHER_ULTIMATE3000
 
         private string RSADecrypt(string encryptedText, string privateKeyXml)
         {
-            using (RSA rsa = RSA.Create())
+            int keySizeInBytes = 8192;
+            using (RSA rsa = RSA.Create(keySizeInBytes))
             {
                 rsa.FromXmlString(privateKeyXml);
 
@@ -156,7 +158,7 @@ namespace CYPHER_ULTIMATE3000
 
         public static string Sign(string privateKey, string dataToSign)
         {
-            using (RSA rsa = RSA.Create())
+            using (RSA rsa = RSA.Create(8192))
             {
                 rsa.FromXmlString(privateKey);
                 byte[] messageBytes = Encoding.UTF8.GetBytes(dataToSign);
@@ -169,7 +171,7 @@ namespace CYPHER_ULTIMATE3000
 
         public static bool Verify(string publicKey, string dataToValidate, byte[] signature)
         {
-            using (RSA rsa = RSA.Create())
+            using (RSA rsa = RSA.Create(8192))
             {
                 rsa.FromXmlString(publicKey);
                 byte[] messageBytes = Encoding.UTF8.GetBytes(dataToValidate);
@@ -340,7 +342,7 @@ namespace CYPHER_ULTIMATE3000
         // Кнопка генерации приватного ключа RSA
         private void GenerateRSAKeyButton_Click(Object sender, EventArgs e)
         {
-            using (RSA rsa = RSA.Create())
+            using (RSA rsa = RSA.Create(8192))
             {
                 string privateKeyXml = rsa.ToXmlString(true);
                 PrivKeyTextBox.Text = privateKeyXml;
