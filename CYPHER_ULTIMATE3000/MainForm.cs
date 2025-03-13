@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
@@ -125,7 +126,7 @@ namespace CYPHER_ULTIMATE3000
             using (RSA rsa = RSA.Create())
             {
                 rsa.FromXmlString(publicKey);
-                byte[] messageBytes = Encoding.UTF8.GetBytes(dataToEncrypt);
+                byte[] messageBytes = Zip(dataToEncrypt);
                 byte[] encryptedBytes = rsa.Encrypt(messageBytes, RSAEncryptionPadding.Pkcs1);
                 return encryptedBytes;
             }
@@ -135,12 +136,12 @@ namespace CYPHER_ULTIMATE3000
         {
             using (RSA rsa = RSA.Create())
             {
-                rsa.FromXmlString(privateKeyXml); // Устанавливаем приватный ключ (XML)
+                rsa.FromXmlString(privateKeyXml);
 
-                byte[] encryptedBytes = Convert.FromBase64String(encryptedText); // Декодируем зашифрованные данные
+                byte[] encryptedBytes = Convert.FromBase64String(encryptedText);
                 byte[] decryptedBytes = rsa.Decrypt(encryptedBytes, RSAEncryptionPadding.Pkcs1);
 
-                return Encoding.UTF8.GetString(decryptedBytes);
+                return Unzip(decryptedBytes);
             }
         }
 
@@ -179,6 +180,44 @@ namespace CYPHER_ULTIMATE3000
         //
         //
         // ПОДПИСЬ И ПРОВЕРКА
+
+        public static byte[] Zip(string str)
+        {
+            var bytes = System.Text.Encoding.UTF8.GetBytes(str);
+            using (var msi = new MemoryStream(bytes))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(mso, CompressionMode.Compress))
+                {
+                    CopyTo(msi, gs);
+                }
+                return mso.ToArray();
+            }
+        }
+        public static string Unzip(byte[] bytes)
+        {
+            using (var msi = new MemoryStream(bytes))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(msi, CompressionMode.Decompress))
+                {
+                    CopyTo(gs, mso);
+                }
+                return System.Text.Encoding.UTF8.GetString(mso.ToArray());
+            }
+        }
+
+        public static void CopyTo(Stream src, Stream dest)
+        {
+            byte[] bytes = new byte[4096];
+
+            int cnt;
+
+            while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
+            {
+                dest.Write(bytes, 0, cnt);
+            }
+        }
 
         // Кнопка AES шифрования
         private void AESEncyptButton_Click(object sender, EventArgs e)
