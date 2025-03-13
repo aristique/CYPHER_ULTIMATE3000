@@ -206,9 +206,9 @@ namespace CYPHER_ULTIMATE3000
                     string keyCrypt = PrivKeyTextBox.Text;
                     OutputTextBox.Clear();
                     string decryptedText = AESDecrypt(InputTextBox.Text, keyCrypt);
-                    if (decryptedText.StartsWith("Ошибка"))
+                    if (decryptedText == null)
                     {
-                        MessageBox.Show(decryptedText, "Ошибка!");
+                        MessageBox.Show("Неправильный ключ/дешифруемый текст!", "Ошибка!");
                     }
                     else
                     {
@@ -226,7 +226,7 @@ namespace CYPHER_ULTIMATE3000
             Random random = new Random();
             StringBuilder result = new StringBuilder(16);
             PrivKeyTextBox.Clear();
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 256; i++)
             {
                 char randomChar = (char)random.Next(33, 127);
                 result.Append(randomChar);

@@ -86,6 +86,7 @@ namespace CYPHER_ULTIMATE3000
             // 
             this.OutputTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.OutputTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OutputTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.OutputTextBox.Location = new System.Drawing.Point(686, 23);
             this.OutputTextBox.Multiline = true;
             this.OutputTextBox.Name = "OutputTextBox";
@@ -96,6 +97,7 @@ namespace CYPHER_ULTIMATE3000
             // InputTextBox
             // 
             this.InputTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InputTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.InputTextBox.Location = new System.Drawing.Point(3, 23);
             this.InputTextBox.Multiline = true;
             this.InputTextBox.Name = "InputTextBox";
@@ -174,7 +176,7 @@ namespace CYPHER_ULTIMATE3000
             this.PubKeyText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.PubKeyText.Location = new System.Drawing.Point(3, 90);
             this.PubKeyText.Name = "PubKeyText";
-            this.PubKeyText.Size = new System.Drawing.Size(136, 16);
+            this.PubKeyText.Size = new System.Drawing.Size(190, 18);
             this.PubKeyText.TabIndex = 3;
             this.PubKeyText.Text = "Публичный ключ:";
             this.PubKeyText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -244,7 +246,7 @@ namespace CYPHER_ULTIMATE3000
             this.ChooseAlgText.AutoSize = true;
             this.ChooseAlgText.Location = new System.Drawing.Point(3, 10);
             this.ChooseAlgText.Name = "ChooseAlgText";
-            this.ChooseAlgText.Size = new System.Drawing.Size(97, 13);
+            this.ChooseAlgText.Size = new System.Drawing.Size(144, 20);
             this.ChooseAlgText.TabIndex = 2;
             this.ChooseAlgText.Text = "Выбор алгоритма";
             // 
@@ -253,7 +255,7 @@ namespace CYPHER_ULTIMATE3000
             this.AESRadioButton.AutoSize = true;
             this.AESRadioButton.Location = new System.Drawing.Point(3, 36);
             this.AESRadioButton.Name = "AESRadioButton";
-            this.AESRadioButton.Size = new System.Drawing.Size(183, 17);
+            this.AESRadioButton.Size = new System.Drawing.Size(274, 24);
             this.AESRadioButton.TabIndex = 1;
             this.AESRadioButton.TabStop = true;
             this.AESRadioButton.Text = "Симметричный алгоритм (AES)";
@@ -265,7 +267,7 @@ namespace CYPHER_ULTIMATE3000
             this.RSARadioButton.AutoSize = true;
             this.RSARadioButton.Location = new System.Drawing.Point(3, 59);
             this.RSARadioButton.Name = "RSARadioButton";
-            this.RSARadioButton.Size = new System.Drawing.Size(190, 17);
+            this.RSARadioButton.Size = new System.Drawing.Size(283, 24);
             this.RSARadioButton.TabIndex = 0;
             this.RSARadioButton.TabStop = true;
             this.RSARadioButton.Text = "Асимметричный алгоритм (RSA)";
@@ -326,11 +328,11 @@ namespace CYPHER_ULTIMATE3000
             this.SignatureText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.SignatureText.Location = new System.Drawing.Point(695, 639);
             this.SignatureText.Name = "SignatureText";
-            this.SignatureText.Size = new System.Drawing.Size(157, 16);
+            this.SignatureText.Size = new System.Drawing.Size(222, 25);
             this.SignatureText.TabIndex = 6;
             this.SignatureText.Text = "Подписанный текст:";
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1366, 768);
@@ -345,7 +347,7 @@ namespace CYPHER_ULTIMATE3000
             this.Icon = global::CYPHER_ULTIMATE3000.Properties.Resources.CyberUltimate;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Cypher3000";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
