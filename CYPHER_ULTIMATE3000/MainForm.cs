@@ -6,20 +6,26 @@ using System.Windows.Forms;
 
 namespace CYPHER_ULTIMATE3000
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         // Инициализация формы
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
             AESRadioButton.Checked = true;
-            PubKeyText.Visible = false;
-            PubKeyTextBox.Visible = false;
-            SignButton.Visible = false;
-            VerifyButton.Visible = false;
-            SignatureText.Visible = false;
-            SignatureTextBox.Visible = false;
+            SetInterfaceVal (false);
+        }
+
+        // Задание параметров
+        private void SetInterfaceVal(bool val)
+        { 
+            PubKeyText.Visible = 
+            PubKeyTextBox.Visible = 
+            SignButton.Visible = 
+            VerifyButton.Visible = 
+            SignatureText.Visible = 
+            SignatureTextBox.Visible = val;
         }
 
         // ШИФРОВАНИЕ AES
@@ -348,12 +354,7 @@ namespace CYPHER_ULTIMATE3000
         {
             if (AESRadioButton.Checked)
             {
-                PubKeyText.Visible = false;
-                PubKeyTextBox.Visible = false;
-                SignButton.Visible = false;
-                VerifyButton.Visible = false;
-                SignatureText.Visible = false;
-                SignatureTextBox.Visible = false;
+                SetInterfaceVal(false);
 
                 GeneratePrivKeyButton.Click -= GenerateAESKeyButton_Click;
                 GeneratePrivKeyButton.Click -= GenerateRSAKeyButton_Click;
@@ -374,12 +375,7 @@ namespace CYPHER_ULTIMATE3000
         {
             if (RSARadioButton.Checked)
             {
-                PubKeyText.Visible = true;
-                PubKeyTextBox.Visible = true;
-                SignButton.Visible = true;
-                VerifyButton.Visible = true;
-                SignatureText.Visible = true;
-                SignatureTextBox.Visible = true;
+                SetInterfaceVal(true);
 
                 GeneratePrivKeyButton.Click -= GenerateAESKeyButton_Click;
                 GeneratePrivKeyButton.Click -= GenerateRSAKeyButton_Click;
